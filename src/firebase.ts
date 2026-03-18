@@ -3,12 +3,12 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAJV0n244GO2DGFQRN1mxh6hLu_SS7_fQc",
-  authDomain: "horario-cloud.firebaseapp.com",
-  projectId: "horario-cloud",
-  storageBucket: "horario-cloud.firebasestorage.app",
-  messagingSenderId: "559047281649",
-  appId: "1:559047281649:web:c3f0d7a2c4600d52085250"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 const app = initializeApp(firebaseConfig);
