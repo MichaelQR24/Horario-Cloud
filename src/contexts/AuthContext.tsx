@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { auth, googleProvider } from '../firebase';
-import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
+import { signInWithRedirect, signOut, onAuthStateChanged } from 'firebase/auth';
 import type { User } from 'firebase/auth';
 
 interface AuthContextType {
@@ -33,7 +33,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const loginWithGoogle = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      // Usamos Redirect en lugar de Popup para evitar bloqueos del navegador (COOP/Popups)
+      await signInWithRedirect(auth, googleProvider);
     } catch (error) {
       console.error('Error logging in:', error);
     }
