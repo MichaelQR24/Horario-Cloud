@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { auth, googleProvider } from '../firebase';
-import { signInWithRedirect, signOut, onAuthStateChanged } from 'firebase/auth';
+import { signInWithPopup, signOut, onAuthStateChanged } from 'firebase/auth';
 import type { User } from 'firebase/auth';
 
 interface AuthContextType {
@@ -33,10 +33,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const loginWithGoogle = async () => {
     try {
-      // Usamos Redirect en lugar de Popup para evitar bloqueos del navegador (COOP/Popups)
-      await signInWithRedirect(auth, googleProvider);
-    } catch (error) {
-      console.error('Error logging in:', error);
+      // signInWithPopup es mucho más fiable en localhost y funciona bien en Vercel
+      // si los dominios están autorizados.
+      await signInWithPopup(auth, googleProvider);
+    } catch (error: any) {
+      console.error('Error logging in:', error.code, error.message);
+      // Si el error es por bloqueos de popups, podrías avisar al usuario
+      if (error.code === 'auth/popup-blocked') {
+        alert('Por favor, permite los popups para iniciar sesión.');
+      }
     }
   };
 
